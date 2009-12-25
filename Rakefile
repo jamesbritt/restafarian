@@ -18,7 +18,7 @@ PROJ.name = 'restafarian'
 PROJ.authors = 'James Britt'
 PROJ.email = 'james@neurogami.com'
 PROJ.url = 'http:// neurogami.com/code/restafarian'
-PROJ.version = Restafarian::VERSION
+PROJ.version = Neurogami::Rack::Restafarian::VERSION
 # PROJ.rubyforge.name = 'restafarian'
 
 PROJ.spec.opts << '--color'
