@@ -4,7 +4,7 @@ module Neurogami
     class Restafarian
       warn "loaded #{__FILE__}"
       # :stopdoc:
-      VERSION = '0.3.0'
+      VERSION = '0.5.0'
       LIBPATH = ::File.expand_path(::File.dirname(__FILE__)) + ::File::SEPARATOR
       PATH = ::File.dirname(LIBPATH) + ::File::SEPARATOR
       # :startdoc:

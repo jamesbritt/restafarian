@@ -35,11 +35,21 @@ module Neurogami
       end
 
       def set_x_request env
-        params = ::Rack::Utils.parse_query(env["rack.input"].read, "&") || []
+        warn "set_x_request Called with #{env.inspect}"
+        params = ::Rack::Utils.parse_query(env["rack.input"].read, "&") || {}
+        warn "set_x_request has params #{params.inspect}"
+        raise "Nil params in set_x_request env!" unless params
+        params.each do |k, v|
+             if k =~ /REQUEST_METHOD/
+                env[k] = v 
+             end
+        end
       rescue
-        warn "Error? #{$!}"
+        warn "Error in set_x_request env:  #{$!}"
       ensure
         env["rack.input"].rewind
+        params =  {}
+        
         env['REQUEST_METHOD'] = params['X-REQUEST_METHOD'] || env['X-REQUEST_METHOD'] || env['REQUEST_METHOD'] 
       end
 
@@ -55,7 +65,7 @@ module Neurogami
 
         # Do not allow direct calls to REST mappings
         message = "Path not allowed"
-        return [403, {'Content-Type' => 'text/plain', 'Content-length' => message.size }, message  ]  if  have_restricted_path 
+        return [403, {'Content-Type' => 'text/plain', 'Content-length' => message.size }, [message]  ]  if  have_restricted_path 
         action = @mapping[env['REQUEST_METHOD'].upcase] || 'index'
 
         segments = [path_segements[:base], action, path_segements[:args] ].flatten
